@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>GeoIN</title>
+    <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v8.1.0/ol.css">
+    <script src="https://cdn.jsdelivr.net/npm/ol@v8.1.0/dist/ol.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
+    <script src="index.js"></script>
+  </head>
+  <body>
+    <div id="sidebar">
+      <h1>GeoIN</h1>
+      <p>Using roads, lakes, etc., align the interactive map to the map in your PDF. Drag to pan the interactive map, and zoom by scrolling or using the +/- buttons.</p>
+      <p>Adjust the opacity of the PDF with the slider below. This has no effect on the PDF that will be generated.</p>
+      <input type="range" min="0" max="100" value="50" id="slider">
+      <div class="button-container">
+        <button id="save">Finished? Save as…</button>
+        <button id="open">Open another PDF…</button>
+      </div>
+    </div>
+    <div id="map-container">
+      <canvas id="pdf-canvas"></canvas>
+      <div id="map"></div>
+    </div>
+  </body>
+</html>
