@@ -34,15 +34,15 @@ const gdalNotInstalled = async (error) => {
   const choice = await dialog.showMessageBox({
     type: 'error',
     title: 'GDAL Not Found',
-    message: 'GDAL is required but not found on your system. Please install GDAL to use this application.',
+    message: 'GDAL is required but not found on your system. Please follow the instructions in the README to install GDAL.',
     detail: error.message,
-    buttons: ['Open Download Page', 'Quit'],
+    buttons: ['View the README', 'Quit'],
     defaultId: 0,
     cancelId: 1
   });
 
   if (choice.response === 0) {
-    await shell.openExternal('https://gdal.org/en/stable/download.html');
+    await shell.openExternal('https://github.com/williehwc/GeoIN/blob/main/README.md#GDAL');
   }
 };
 
@@ -64,7 +64,7 @@ const createWindow = async () => {
       nodeIntegration: false,
       contextIsolation: true
     },
-    titleBarStyle: 'hiddenInset'
+    ...(process.platform === 'darwin' ? {titleBarStyle: 'hiddenInset'} : {titleBarStyle: 'hidden', titleBarOverlay: {color: '#333', symbolColor: '#EEE'}})
   });
 
   ipcMain.on('change-pdf', changePdf);
