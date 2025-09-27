@@ -81,15 +81,18 @@ body {
     background-color: #333;
     color: white;
     border-radius: 5px;
-    cursor: pointer;
 }
 
-.button-container button:active {
+.button-container button:hover {
     margin-top: 4px;
     border-width: 2px;
     width: 102%;
     margin-left: -1%;
     margin-bottom: -1px;
+}
+
+.button-container button:active {
+    transform: scale(.98);
 }
 
 #save {
@@ -100,4 +103,36 @@ body {
 #slider {
     -webkit-app-region: no-drag;
     accent-color: white;
+}
+
+.ol-zoom {
+    display: none;
+}
+
+.zoom-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 16px;
+    height: 16px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border: none;
+    border-radius: 24px;
+    z-index: 1100;
+    image-rendering: pixelated;
+    padding: 8px;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+    cursor: initial;
+}
+
+.zoom-button#zoom-out {
+    top: 50px;
+}
+
+.zoom-button:hover {
+    background-color: rgba(255, 255, 255, 1);
+}
+
+.zoom-button:active {
+    transform: scale(0.95);
 }

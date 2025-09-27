@@ -1,6 +1,50 @@
 let page = null;
 let resizeTimeout = null;
 let map = null;
+let zoomInterval = null;
+
+const ZOOM_STEP_SLOW = 0.01;
+const ZOOM_STEP_MEDIUM = 0.05;
+const ZOOM_STEP_FAST = 0.1;
+const ZOOM_INTERVAL = 50; // milliseconds between zoom steps
+
+const MIN_ZOOM = 3;
+const MAX_ZOOM = 19;
+
+function startZooming(isZoomIn) {
+    if (zoomInterval) return; // Already zooming; prevent multiple intervals
+    
+    zoomInterval = setInterval(() => {
+        const view = map.getView();
+        const currentZoom = view.getZoom();
+
+        // Prevent zooming beyond limits
+        if (currentZoom >= MAX_ZOOM && isZoomIn) return;
+        if (currentZoom <= MIN_ZOOM && !isZoomIn) return;
+        
+        // Determine zoom step based on current zoom level
+        let zoomStep;
+        if (currentZoom > 12) {
+            zoomStep = ZOOM_STEP_SLOW;
+        } else if (currentZoom > 8) {
+            zoomStep = ZOOM_STEP_MEDIUM;
+        } else {
+            zoomStep = ZOOM_STEP_FAST;
+        }
+        
+        view.animate({
+            zoom: currentZoom + (isZoomIn ? zoomStep : -zoomStep),
+            duration: ZOOM_INTERVAL
+        });
+    }, ZOOM_INTERVAL);
+}
+
+function stopZooming() {
+    if (zoomInterval) {
+        clearInterval(zoomInterval);
+        zoomInterval = null;
+    }
+}
 
 window.onload = (event) => {
     document.getElementById('slider').addEventListener('input', (e) => {
@@ -56,10 +100,39 @@ window.onload = (event) => {
         view: new ol.View({
             center: ol.proj.fromLonLat([0, 20]),
             zoom: 3,
-            minZoom: 3,
-            maxZoom: 19,
+            minZoom: MIN_ZOOM,
+            maxZoom: MAX_ZOOM,
             constrainResolution: false // Allows fractional zoom levels
         }),
+    });
+
+    // Zoom button event listeners
+    const zoomInButton = document.getElementById('zoom-in');
+    const zoomOutButton = document.getElementById('zoom-out');
+
+    zoomInButton.addEventListener('mousedown', () => startZooming(true));
+    zoomOutButton.addEventListener('mousedown', () => startZooming(false));
+
+    // Stop zooming on mouse up or if mouse leaves the button
+    zoomInButton.addEventListener('mouseup', stopZooming);
+    zoomOutButton.addEventListener('mouseup', stopZooming);
+    zoomInButton.addEventListener('mouseleave', stopZooming);
+    zoomOutButton.addEventListener('mouseleave', stopZooming);
+
+    // Keyboard event listeners
+    window.addEventListener('keydown', (e) => {
+        if (e.repeat) return; // Prevent multiple triggers from key being held
+        if (e.key === '=' || e.key === '+') {
+            startZooming(true);
+        } else if (e.key === '-') {
+            startZooming(false);
+        }
+    });
+
+    window.addEventListener('keyup', (e) => {
+        if (e.key === '=' || e.key === '+' || e.key === '-') {
+            stopZooming();
+        }
     });
 }
 
