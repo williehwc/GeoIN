@@ -5,13 +5,19 @@ Add in geospatial information to your PDFs so you can use them with GeoPDF smart
 
 ![Screenshot animation](demo.gif)
 
-This app requires [GDAL](https://gdal.org/en/stable/download.html) to be installed. GDAL is responsible for the actual PDF processing, while this app is a frontend that helps you get the coordinates represented in your map.
-
 Download
 --------
 
-[Download for Mac](https://github.com/williehwc/GeoIN/releases) (the Windows version is under development)
+[Download for Mac or Windows](https://github.com/williehwc/GeoIN/releases)
 
+GDAL
+----
+
+This app requires [GDAL](https://gdal.org/en/stable/download.html) to be installed. GDAL is responsible for the actual PDF processing, while this app is a frontend that helps you figure out the coordinates represented in your map.
+
+**Mac** users, install [Homebrew](https://brew.sh/) first if you don't have it yet, and then use it to install [GDAL](https://formulae.brew.sh/formula/gdal) (enter `brew install gdal` in Terminal).
+
+**Windows** users, install [OSGeo4W](https://trac.osgeo.org/osgeo4w/) (select the GDAL package during the installation). Next, search for and select "Edit the system environment variables" in the Start menu, click "Environment Variables…", select the "Path" variable under either "User variables" or "System variables", click "Edit…", click "New", enter `C:\OSGeo4W\bin` (modify if you changed where OSGeo4W was installed), and then click "OK" for each of the three windows opened.
 
 Credits
 -------
